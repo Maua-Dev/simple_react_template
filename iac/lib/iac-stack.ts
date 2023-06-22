@@ -24,6 +24,7 @@ export class IacStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       accessControl: s3.BucketAccessControl.PRIVATE,
+      autoDeleteObjects: true,
     });
 
     const oac = new cloudfront.CfnOriginAccessControl(this, 'AOC', {
