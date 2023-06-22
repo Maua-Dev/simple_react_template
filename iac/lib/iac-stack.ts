@@ -79,16 +79,18 @@ export class IacStack extends cdk.Stack {
       }),
     )  
 
-    const zone = route53.HostedZone.fromHostedZoneAttributes(this, projectName + 'HostedZone-' + stage, {
-      hostedZoneId: hostedZoneIdValue,
-      zoneName: alternativeDomain,
-    });
-    
-    new route53.ARecord(this, projectName + 'AliasRecord-' + stage, {
-      zone: zone,
-      recordName: alternativeDomain,
-      target: route53.RecordTarget.fromAlias(new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)),
-    });
+    if (stage === 'prod') {
+      const zone = route53.HostedZone.fromHostedZoneAttributes(this, projectName + 'HostedZone-' + stage, {
+        hostedZoneId: hostedZoneIdValue,
+        zoneName: alternativeDomain,
+      });
+          
+      new route53.ARecord(this, projectName + 'AliasRecord-' + stage, {
+        zone: zone,
+        recordName: alternativeDomain,
+        target: route53.RecordTarget.fromAlias(new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)),
+      });
+    }
       
     new cdk.CfnOutput(this, projectName + 'BucketName-' + stage, {
       value: s3Bucket.bucketName,
