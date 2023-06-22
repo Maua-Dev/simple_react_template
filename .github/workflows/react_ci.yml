@@ -1,0 +1,9 @@
+name: Next.js CI
+
+on:
+  push:
+    branches: [prod, dev, homolog]
+  pull_request:
+jobs:
+  next_js_ci:
+    uses: maua-dev/ci_workflows_reusable/.github/workflows/react_ci.yml@V1.1
