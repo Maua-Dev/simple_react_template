@@ -30,6 +30,7 @@ jobs:
             echo "STAGE=${{ github.ref_name }}" 
             PROJECT_NAME=$(echo ${{ github.repository.name }} | sed -e 's/[-_]/ /g' | awk '{for(i=1;i<=NF;i++)sub(/./,toupper(substr($i,1,1)),$i)}1' | sed -e 's/ //g')
             echo "STACK_NAME=${PROJECT_NAME}StackFront${{github.ref_name}}" >> $GITHUB_ENV
+            echo "PROJECT_NAME=${PROJECT_NAME}" >> $GITHUB_ENV
         - name: Installing Dependencies
           run: |
             yarn global add aws-cdk
