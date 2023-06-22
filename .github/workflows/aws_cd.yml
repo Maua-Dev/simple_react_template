@@ -33,7 +33,7 @@ jobs:
             echo "PROJECT_NAME=${PROJECT_NAME}Front" >> $GITHUB_ENV
         - name: Installing Dependencies
           run: |
-            npm install add aws-cdk
+            npm install -g aws-cdk
             npm install -g
             cd iac
             npm install -g
