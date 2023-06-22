@@ -100,5 +100,10 @@ export class IacStack extends cdk.Stack {
       value: cloudFrontWebDistribution.distributionId,
     });
 
+    new cdk.CfnOutput(this, projectName + 'DistributionDomainName-' + stage, {
+      value: cloudFrontWebDistribution.distributionDomainName,
+    });
+    
+
   }
 }
