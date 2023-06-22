@@ -15,10 +15,11 @@ export class IacStack extends cdk.Stack {
 
     const stage = process.env.GITHUB_REF_NAME || 'dev';
     const acmCertificateArn = process.env.ACM_CERTIFICATE_ARN || 'arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012';
-    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || 'onlydevs-dev.devmaua.com';
+    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || 'simple_react_template.devmaua.com';
     const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1UJRXOUMOOFQ8';
+    const projectName = process.env.PROJECT_NAME || 'SimpleReactTemplateFront';
 
-    const s3Bucket = new s3.Bucket(this, 'PortalInternoFrontBucket' + stage, {
+    const s3Bucket = new s3.Bucket(this, projectName + 'Bucket' + stage, {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -27,7 +28,7 @@ export class IacStack extends cdk.Stack {
 
     const oac = new cloudfront.CfnOriginAccessControl(this, 'AOC', {
       originAccessControlConfig: {
-        name: 'Portal Interno Front Bucket OAC ' + stage,
+        name: projectName + 'Bucket OAC' + stage,
         originAccessControlOriginType: 's3',
         signingBehavior: 'always',
         signingProtocol: 'sigv4',
@@ -35,7 +36,7 @@ export class IacStack extends cdk.Stack {
     })
 
     const cloudFrontWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'CDN', {
-      comment: 'Portal Interno Front Distribution ' + stage,
+      comment: projectName + 'Distribution ' + stage,
       originConfigs: [
         {
           s3OriginSource: {
@@ -56,7 +57,7 @@ export class IacStack extends cdk.Stack {
         },
       ],
       viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
-        Certificate.fromCertificateArn(this, 'PortalInternoFrontCertificate-' + stage, acmCertificateArn),
+        Certificate.fromCertificateArn(this, projectName + 'Certificate-' + stage, acmCertificateArn),
         {
           aliases: [alternativeDomain],
           securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
@@ -78,22 +79,22 @@ export class IacStack extends cdk.Stack {
       }),
     )  
 
-    const zone = route53.HostedZone.fromHostedZoneAttributes(this, 'PortalInternoFrontHostedZone-' + stage, {
+    const zone = route53.HostedZone.fromHostedZoneAttributes(this, projectName + 'HostedZone-' + stage, {
       hostedZoneId: hostedZoneIdValue,
       zoneName: alternativeDomain,
     });
     
-    new route53.ARecord(this, 'PortalInternoFrontAliasRecord-' + stage, {
+    new route53.ARecord(this, projectName + 'AliasRecord-' + stage, {
       zone: zone,
       recordName: alternativeDomain,
       target: route53.RecordTarget.fromAlias(new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)),
     });
       
-    new cdk.CfnOutput(this, 'PortalInternoFrontBucketName-' + stage, {
+    new cdk.CfnOutput(this, projectName + 'BucketName-' + stage, {
       value: s3Bucket.bucketName,
     });
 
-    new cdk.CfnOutput(this, 'PortalInternoFrontDistributionId-' + stage, {
+    new cdk.CfnOutput(this, projectName + 'DistributionId-' + stage, {
       value: cloudFrontWebDistribution.distributionId,
     });
 

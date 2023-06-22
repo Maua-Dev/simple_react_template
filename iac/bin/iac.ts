@@ -10,7 +10,7 @@ const env = {
   region: process.env.AWS_REGION
 }
 
-const stackName = process.env.STACK_NAME || 'PortalInternoStackDev'
+const stackName = process.env.STACK_NAME || 'SimpleReactTemplateStack'
 
 new IacStack(app, stackName, {
   env: env
