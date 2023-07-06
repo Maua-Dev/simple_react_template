@@ -11,7 +11,7 @@ const env = {
 }
 
 const stackName = process.env.STACK_NAME || 'SimpleReactTemplateStack'
-const projectName = process.env.PROJECT_NAME
+const projectName = process.env.PROJECT_NAME || 'SimpleReactTemplateFront'
 
 const tags = {
   'project': projectName,
