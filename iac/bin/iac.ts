@@ -12,6 +12,14 @@ const env = {
 
 const stackName = process.env.STACK_NAME || 'SimpleReactTemplateStack'
 
+const tags = {
+  'project': stackName,
+  'stage': 'TEST',
+  'stack': 'FRONT',
+  'owner': 'DevCommunity'
+}
+
 new IacStack(app, stackName, {
-  env: env
+  env: env,
+  tags: tags
 });
