@@ -11,7 +11,7 @@ Template base for creating a front-end application using the React library.
 ## Scripts
 To run the application, it's important to use a package manager tool such as yarn or npm.
 
-###### dev
+###### start
     npm run start
     yarn start
 
