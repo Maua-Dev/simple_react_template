@@ -43,6 +43,6 @@ This command will remove the single build dependency from your project.
 - [@EnricoSantarelli](https://github.com/EnricoSantarelli)
 - [@VgsStudio](https://github.com/VgsStudio)
 - [@Dev. Community Mauá](https://www.instagram.com/devcommunitymaua/)
-
+- [@Rubiozito](https://github.com/Rubiozito)
 
 
